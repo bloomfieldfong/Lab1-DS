@@ -8,6 +8,8 @@
 
 library(ggplot2)
 library(caret)
+library("ggpubr")
+install.packages("ggpubr")
 
 setwd("C:/Users/User/Desktop/Data Science/Lab1-DS")
 
@@ -18,11 +20,12 @@ data <- read.csv("train_data.csv")
 summary(data)
 
 
-##Correlacion entre el area del lote y la distancia en la que esta conectada a la calle 
+##Correlacion entre el año de remodelacion y las condiciones que se encuentra la casa
 
-correlacion <- cor(data$LotArea,data$LotFrontage, "pearson", use = "complete.obs")
+correlacion <- cor(data$OverallCond,data$YearRemodAdd, "pearson", use = "complete.obs")
 correlacion
-library("ggpubr")
-install.packages("ggpubr")
-plot(data$LotArea,data$YearBuilt)
+
+##Gafica de los años de remodelacion y condiciones que se encuentra la casa
+
+plot(data$YearRemodAdd, data$OverallCond)
 
