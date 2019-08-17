@@ -6,7 +6,7 @@
 ##    Mayra Silva                     ##
 ##    Michelle Bloomfield             ##
 ########################################
-
+require(ggpubr)
 library(ggplot2)
 library(caret)
 library("ggpubr")
@@ -17,6 +17,8 @@ library(dplyr)
 library(psych)
 library(rela)
 library(FactoMineR)
+library(factoextra)
+library("devtools")
 
 
 #C:/Users/smayr/Documents/Tercer año/Semestre 6/Data Science/Laboratorio 1/Lab1-DS
@@ -46,11 +48,12 @@ dataN <- na.omit(dataN)
 
 #Matriz de correlación
 
+
 matr <- cor(dataN)
  
 
 m <- corrplot(matr, method="number", type="upper")
-m
+m <- na.omit(m)
 
 #Test de esferecidad
 
@@ -66,10 +69,19 @@ cortest.bartlett(dataN)
 #[1] 630
 
 ## PCA
-
-KMO(dataN)
+m <- dataN[,c(3, 5, 8, 11,12, 15, 22, 25, 26, 36)]
+KMO(m)
 bartlett.test(dataN)
 
+
+#Definiendo componentes pricipales
+compPrin <- prcomp(m, scale=T)
+summary(m)
+#Graficando los eigenvalores
+
+res <- fviz_eig(compPrin,  geom="bar", width=0.8, addlabels=T)
+
+res
 
 
 
