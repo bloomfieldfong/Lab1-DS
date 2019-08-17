@@ -10,9 +10,11 @@
 library(ggplot2)
 library(caret)
 library("ggpubr")
-install.packages("ggpubr")
-install.packages("corrplot")
 library(corrplot)
+library(lattice)
+library(magrittr)
+library(dplyr)
+library(psych)
 
 
 #C:/Users/smayr/Documents/Tercer año/Semestre 6/Data Science/Laboratorio 1/Lab1-DS
@@ -44,6 +46,12 @@ dataC <- data[,-c(4,5,18,19,20,21,27,35,37,38,39,44,45,46,47,48,49,50,51,52,53,5
 matr <- cor(dataN)
  
 
+m <- corrplot(matr, method="number", type="upper")
+m
+
+#Test de esferecidad
+
+cortest.bartlett(dataN)
 
 
 
