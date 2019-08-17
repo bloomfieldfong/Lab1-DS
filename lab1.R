@@ -15,6 +15,8 @@ library(lattice)
 library(magrittr)
 library(dplyr)
 library(psych)
+library(rela)
+library(FactoMineR)
 
 
 #C:/Users/smayr/Documents/Tercer año/Semestre 6/Data Science/Laboratorio 1/Lab1-DS
@@ -52,6 +54,23 @@ m
 #Test de esferecidad
 
 cortest.bartlett(dataN)
+#R was not square, finding R from data
+#chisq
+#[1] 56046
+
+#$p.value
+#[1] 0
+
+#$df
+#[1] 630
+
+## PCA
+KMO(matr)
+bartlett.test(dataN)
+
+
+
+
 
 
 
