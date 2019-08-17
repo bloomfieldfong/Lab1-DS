@@ -17,8 +17,18 @@ library(dplyr)
 library(psych)
 library(rela)
 library(FactoMineR)
+<<<<<<< HEAD
 library(factoextra)
 library("devtools")
+=======
+library(cluster) 
+install.packages("fpc")
+library(fpc) 
+install.packages("NbClust")
+library(NbClust)
+install.packages("factoextra")
+library(factoextra) 
+>>>>>>> master
 
 
 #C:/Users/smayr/Documents/Tercer año/Semestre 6/Data Science/Laboratorio 1/Lab1-DS
@@ -74,6 +84,7 @@ KMO(m)
 bartlett.test(dataN)
 
 
+<<<<<<< HEAD
 #Definiendo componentes pricipales
 compPrin <- prcomp(m, scale=T)
 summary(m)
@@ -83,8 +94,73 @@ res <- fviz_eig(compPrin,  geom="bar", width=0.8, addlabels=T)
 
 res
 
+=======
+##correlacion de variables
+>>>>>>> master
+
+cor.test(data$OverallCond,data$YearRemodAdd,method = "pearson")
+ggscatter(data, x = "OverallCond", y = "YearRemodAdd", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "ESTADO", ylab = "FALTA")
+
+##Gafica de los años de remodelacion y condiciones que se encuentra la casa
+
+plot(data$YearRemodAdd, data$OverallCond)
 
 
+##Normalidad de datos
+
+qqnorm(data$YearBuilt)
+qqline(data$YearBuilt)
+
+
+qqnorm(data$SalePrice)
+qqline(data$SalePrice)
+
+
+#--------------------------------------------------------- Clustering ------------------------------------------------------#
+
+
+datosCluster <- data.frame(LotFrontage = data$LotFrontage, LotArea = data$LotArea, yearbuilt = data$YearBuilt, yearremod = data$YearRemodAdd, bsmtfins1 = data$BsmtFinSF1, bsmtfin2 = data$BsmtFinSF2, BsmtUnSF = data$BsmtUnfSF, totalBmsntSF = data$TotalBsmtSF, firststFloor = data$X1stFlrSF, secondndFloor = data$X2ndFlrSF, MoSold = data$MoSold, miscVal = data$MiscVal, pool = data$PoolArea, woodDeck = data$WoodDeckSF, openPorch = data$OpenPorchSF, encloseporch = data$EnclosedPorch, treessnporch = data$X3SsnPorch, sscreenporch = data$ScreenPorch, garageArea = data$GarageArea, garaYearBuilt = data$GarageYrBlt, fireplaces = data$Fireplaces, totalroomsabvgrd = data$TotRmsAbvGrd, kitchenabvgr = data$KitchenAbvGr, bedabvgr = data$BedroomAbvGr, halfbath = data$HalfBath, fullbath = data$FullBath, bsmtFullBath = data$BsmtFullBath, bsmtHalfBath = data$BsmtHalfBath, grlivArea = data$GrLivArea, masvrarea = data$MasVnrArea)
+
+datosCluster <- na.omit(datosCluster)
+x <- (nrow(datosCluster[,1:30])-1)
+y <- sum(apply(datosCluster[,1:30],2,var))
+wss <- (nrow(datosCluster[,1:30])-1)*sum(apply(datosCluster[,1:30],2,var))
+for (i in 2:10) 
+  wss[i] <- sum(kmeans(datosCluster[1:30], centers=i)$withinss)
+
+plot(1:10, wss, type="b", xlab="Numero de clusters",  ylab="Within grupo de sumas de cuadrados")
+
+
+km<-kmeans(datosCluster[,1:30],4)
+datosCluster$grupo<-km$cluster
+
+
+##Grupo 1
+
+g1<- datosCluster[datosCluster$grupo==1,]
+nrow(g1)
+summary(g1)
+
+##Grupo 2
+
+g2<- datosCluster[datosCluster$grupo==2,]
+summary(g2)
+
+
+##Grupo 3
+
+g3<- datosCluster[datosCluster$grupo==3,]
+summary(g3)
+
+##Grupo 4
+
+g4<- datosCluster[datosCluster$grupo==4,]
+summary(g4)
+
+plotcluster(datosCluster[,1:30],km$cluster) #grafica la ubicaciÃ³n de los clusters
 
 
 
