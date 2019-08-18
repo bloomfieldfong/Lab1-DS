@@ -19,10 +19,19 @@ library(rela)
 library(FactoMineR)
 library(factoextra)
 library("devtools")
+<<<<<<< HEAD
 library(arules)
 library(cluster) 
 library(NbClust)
 library(fpc) 
+=======
+
+library(cluster) 
+library(fpc) 
+library(NbClust)
+
+install.packages("factoextra")
+>>>>>>> master
 library(factoextra) 
 
 
@@ -80,7 +89,10 @@ KMO(m)
 bartlett.test(dataN)
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 #Definiendo componentes pricipales
 compPrin <- prcomp(m, scale=T)
 summary(m)
@@ -90,9 +102,13 @@ res <- fviz_eig(compPrin,  geom="bar", width=0.8, addlabels=T)
 
 res
 
+<<<<<<< HEAD
 
 ##correlacion de variables
 
+=======
+##correlacion de variables
+>>>>>>> master
 
 cor.test(data$OverallCond,data$YearRemodAdd,method = "pearson")
 ggscatter(data, x = "OverallCond", y = "YearRemodAdd", 
@@ -118,9 +134,39 @@ qqline(data$SalePrice)
 #--------------------------------------------------------- Clustering ------------------------------------------------------#
 
 
+
+library(factoextra) 
+library(cluster) #Para calcular la silueta
+library(e1071)#para cmeans
+library(mclust) #mixtures of gaussians
+library(fpc) #para hacer el plotcluster
+library(NbClust) #Para determinar el número de clusters óptimo
+library(factoextra) #Para hacer gráficos bonitos de clustering
+
+
+
 datosCluster <- data.frame(LotFrontage = data$LotFrontage, LotArea = data$LotArea, yearbuilt = data$YearBuilt, yearremod = data$YearRemodAdd, bsmtfins1 = data$BsmtFinSF1, bsmtfin2 = data$BsmtFinSF2, BsmtUnSF = data$BsmtUnfSF, totalBmsntSF = data$TotalBsmtSF, firststFloor = data$X1stFlrSF, secondndFloor = data$X2ndFlrSF, MoSold = data$MoSold, miscVal = data$MiscVal, pool = data$PoolArea, woodDeck = data$WoodDeckSF, openPorch = data$OpenPorchSF, encloseporch = data$EnclosedPorch, treessnporch = data$X3SsnPorch, sscreenporch = data$ScreenPorch, garageArea = data$GarageArea, garaYearBuilt = data$GarageYrBlt, fireplaces = data$Fireplaces, totalroomsabvgrd = data$TotRmsAbvGrd, kitchenabvgr = data$KitchenAbvGr, bedabvgr = data$BedroomAbvGr, halfbath = data$HalfBath, fullbath = data$FullBath, bsmtFullBath = data$BsmtFullBath, bsmtHalfBath = data$BsmtHalfBath, grlivArea = data$GrLivArea, masvrarea = data$MasVnrArea)
 
 datosCluster <- na.omit(datosCluster)
+
+##Silueta para clustering, fuzzy cmean, kmedias y gusiana
+
+#0.43
+silkm<-silhouette(km$cluster,dist(datosCluster[,1:30]))
+mean(silkm[,3]) 
+
+#0.5
+silch<-silhouette(groups,dist(datosCluster[,1:30]))
+mean(silch[,3]) 
+
+silfcm<-silhouette(fcm$cluster,dist(datosCluster[,1:30]))
+mean(silfcm[,3]) 
+
+silmg<-silhouette(mc$classification,dist(datosCluster[,1:30]))
+mean(silmg[,3]) 
+
+
+
 x <- (nrow(datosCluster[,1:30])-1)
 y <- sum(apply(datosCluster[,1:30],2,var))
 wss <- (nrow(datosCluster[,1:30])-1)*sum(apply(datosCluster[,1:30],2,var))
@@ -143,20 +189,23 @@ summary(g1)
 ##Grupo 2
 
 g2<- datosCluster[datosCluster$grupo==2,]
+nrow(g2)
 summary(g2)
 
 
 ##Grupo 3
 
 g3<- datosCluster[datosCluster$grupo==3,]
+nrow(g3)
 summary(g3)
 
-##Grupo 4
 
-g4<- datosCluster[datosCluster$grupo==4,]
-summary(g4)
+##Grafica de clusters 
 
-plotcluster(datosCluster[,1:30],km$cluster) #grafica la ubicaciÃ³n de los clusters
+plotcluster(datosCluster[,1:30],km$cluster)
+
+
+
 
 
 
