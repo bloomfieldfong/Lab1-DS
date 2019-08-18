@@ -17,18 +17,14 @@ library(dplyr)
 library(psych)
 library(rela)
 library(FactoMineR)
-<<<<<<< HEAD
 library(factoextra)
 library("devtools")
-=======
+library(arules)
 library(cluster) 
-install.packages("fpc")
-library(fpc) 
-install.packages("NbClust")
 library(NbClust)
-install.packages("factoextra")
+library(fpc) 
 library(factoextra) 
->>>>>>> master
+
 
 
 #C:/Users/smayr/Documents/Tercer año/Semestre 6/Data Science/Laboratorio 1/Lab1-DS
@@ -84,7 +80,7 @@ KMO(m)
 bartlett.test(dataN)
 
 
-<<<<<<< HEAD
+
 #Definiendo componentes pricipales
 compPrin <- prcomp(m, scale=T)
 summary(m)
@@ -94,9 +90,9 @@ res <- fviz_eig(compPrin,  geom="bar", width=0.8, addlabels=T)
 
 res
 
-=======
+
 ##correlacion de variables
->>>>>>> master
+
 
 cor.test(data$OverallCond,data$YearRemodAdd,method = "pearson")
 ggscatter(data, x = "OverallCond", y = "YearRemodAdd", 
@@ -161,6 +157,25 @@ g4<- datosCluster[datosCluster$grupo==4,]
 summary(g4)
 
 plotcluster(datosCluster[,1:30],km$cluster) #grafica la ubicaciÃ³n de los clusters
+
+
+
+### Análisis exploratorio continuación
+data1 <- dataN[,c(3)]
+boxplot(data1, main="Dispersión de la calidad en general")
+
+
+##tabla de frecuencias de la condición de venta de la casa
+table(dataC$SaleCondition)
+
+##histograma del estilo de casa
+hist(dataN$FullBath)
+
+
+
+
+
+
 
 
 
