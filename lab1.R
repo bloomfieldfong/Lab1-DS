@@ -6,7 +6,7 @@
 ##    Mayra Silva                     ##
 ##    Michelle Bloomfield             ##
 ########################################
-
+require(ggpubr)
 library(ggplot2)
 library(caret)
 library("ggpubr")
@@ -17,9 +17,15 @@ library(dplyr)
 library(psych)
 library(rela)
 library(FactoMineR)
+library(factoextra)
+library("devtools")
+
 library(cluster) 
 library(fpc) 
 library(NbClust)
+
+install.packages("factoextra")
+library(factoextra) 
 
 
 
@@ -50,11 +56,12 @@ dataN <- na.omit(dataN)
 
 #Matriz de correlación
 
+
 matr <- cor(dataN)
  
 
 m <- corrplot(matr, method="number", type="upper")
-m
+m <- na.omit(m)
 
 #Test de esferecidad
 
@@ -70,10 +77,19 @@ cortest.bartlett(dataN)
 #[1] 630
 
 ## PCA
-
-KMO(dataN)
+m <- dataN[,c(3, 5, 8, 11,12, 15, 22, 25, 26, 36)]
+KMO(m)
 bartlett.test(dataN)
 
+
+#Definiendo componentes pricipales
+compPrin <- prcomp(m, scale=T)
+summary(m)
+#Graficando los eigenvalores
+
+res <- fviz_eig(compPrin,  geom="bar", width=0.8, addlabels=T)
+
+res
 
 ##correlacion de variables
 
@@ -99,6 +115,7 @@ qqline(data$SalePrice)
 
 
 #--------------------------------------------------------- Clustering ------------------------------------------------------#
+
 
 
 library(factoextra) 
@@ -155,22 +172,23 @@ summary(g1)
 ##Grupo 2
 
 g2<- datosCluster[datosCluster$grupo==2,]
+nrow(g2)
 summary(g2)
 
 
 ##Grupo 3
 
 g3<- datosCluster[datosCluster$grupo==3,]
+nrow(g3)
 summary(g3)
 
-##Grupo 4
-
-g4<- datosCluster[datosCluster$grupo==4,]
-summary(g4)
 
 ##Grafica de clusters 
 
 plotcluster(datosCluster[,1:30],km$cluster)
+
+
+
 
 
 
