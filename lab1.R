@@ -39,6 +39,20 @@ data <- read.csv("train_data.csv")
 summary(data)
 
 
+
+##Graficos
+
+datosd <- data.frame(LotFrontage = data$LotFrontage,  yearbuilt = data$YearBuilt, yearremod = data$YearRemodAdd, bsmtfins1 = data$BsmtFinSF1, bsmtfin2 = data$BsmtFinSF2, BsmtUnSF = data$BsmtUnfSF, totalBmsntSF = data$TotalBsmtSF, firststFloor = data$X1stFlrSF, secondndFloor = data$X2ndFlrSF, MoSold = data$MoSold, pool = data$PoolArea, woodDeck = data$WoodDeckSF, openPorch = data$OpenPorchSF, encloseporch = data$EnclosedPorch, treessnporch = data$X3SsnPorch, sscreenporch = data$ScreenPorch, garageArea = data$GarageArea, garaYearBuilt = data$GarageYrBlt, fireplaces = data$Fireplaces, totalroomsabvgrd = data$TotRmsAbvGrd, kitchenabvgr = data$KitchenAbvGr, bedabvgr = data$BedroomAbvGr, halfbath = data$HalfBath, fullbath = data$FullBath, bsmtFullBath = data$BsmtFullBath, bsmtHalfBath = data$BsmtHalfBath, grlivArea = data$GrLivArea, masvrarea = data$MasVnrArea)
+
+
+boxplot(data$LotArea, xlab = "Area")
+
+
+
+
+
+
+
 ##Correlacion entre el año de remodelacion y las condiciones que se encuentra la casa
 
 correlacion <- cor(data$OverallCond,data$YearRemodAdd, "pearson", use = "complete.obs")
@@ -52,6 +66,16 @@ plot(data$YearRemodAdd, data$OverallCond)
 dataN <- data[,c(4,5,18,19,20,21,27,35,37,38,39,44,45,46,47,48,49,50,51,52,53,55,57,60,62,63,67,68,69,70,71,72,76,77,78,81)]
 dataC <- data[,-c(4,5,18,19,20,21,27,35,37,38,39,44,45,46,47,48,49,50,51,52,53,55,57,60,62,63,67,68,69,70,71,72,76,77,78,81)]
 dataN <- na.omit(dataN)
+
+
+##graficasa
+
+boxplot(data$LotArea, xlab = "Area del lote")
+
+
+qqnorm(data$LotArea)
+qqline(data$LotArea)
+
 
 
 #Matriz de correlación
@@ -181,6 +205,14 @@ summary(g2)
 g3<- datosCluster[datosCluster$grupo==3,]
 nrow(g3)
 summary(g3)
+
+##Grupo 4
+
+g4<- datosCluster[datosCluster$grupo==4,]
+nrow(g4)
+summary(g4)
+
+boxplot(g4$firststFloor, xlab = "Piso 1 en pies cuadracos")
 
 
 ##Grafica de clusters 
